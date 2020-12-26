@@ -1,0 +1,1 @@
+## The shopping app for the BAD API assignment
