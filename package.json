@@ -1,0 +1,31 @@
+{
+  "name": "shop_reaktor",
+  "version": "1.0.0",
+  "description": "Frontend for the bad API assignement",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kartikeytewari/reaktor-bad-api.git"
+  },
+  "keywords": [
+    "Frontend",
+    "BAD-API",
+    "API",
+    "local_storage_cache"
+  ],
+  "author": "Kartikey Tewari",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kartikeytewari/reaktor-bad-api/issues"
+  },
+  "homepage": "https://github.com/kartikeytewari/reaktor-bad-api#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "request": "^2.88.2"
+  }
+}
