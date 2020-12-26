@@ -1,0 +1,14 @@
+<%- include("partials/header.ejs") %>
+this is a product page
+
+<div>
+    <% for (let i=0;i<=data.length-1;i++){ %>
+    <tr>
+        <td> <%= data[i]["id"] %> </td>
+        <td> <%= data[i]["type"] %> </td>
+        <br>
+    </tr>
+    <% } %>
+</div>
+
+<%- include("partials/footer.ejs") %>
