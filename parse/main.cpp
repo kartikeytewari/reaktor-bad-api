@@ -2,7 +2,7 @@
 #define ll long long
 #define ld long double
 #define endl "\n"
-#define n 18881
+#define n 18402
 using namespace std;
 
 int main()

@@ -2,10 +2,15 @@
 this is a product page
 
 <div>
-    <% for (let i=0;i<=data.length-1;i++){ %>
+    <% for (let i=0;i<=10-1;i++){ %>
     <tr>
-        <td> <%= data[i]["id"] %> </td>
-        <td> <%= data[i]["type"] %> </td>
+        <!-- <td> <%= product_data[i]["id"] %> </td>
+        <td> <%= product_data[i]["type"] %> </td>
+        <td> <%= product_data[i]["name"] %> </td>
+        <td> <%= product_data[i]["color"] %> </td>
+        <td> <%= product_data[i]["price"] %> </td> -->
+        <td> <%= product_data[i]["manufacturer"] %> </td>
+        <td> <%= console.log(manufacturer_all_data[product_data[i]["manufacturer"]])%> </td>
         <br>
     </tr>
     <% } %>
