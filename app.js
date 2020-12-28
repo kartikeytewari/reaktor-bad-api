@@ -36,11 +36,11 @@ app.get("/product/:product", function(req,res){
             console.log("sucess: route requested to /" + req.params.product);
             let product_data=JSON.parse(body);
             let manufacturer_all_data={};
-            for (let i=0;i<=10-1;i++)
+            for (let i=0;i<=2-1;i++)
             {
                 let manufacturer_name=product_data[i]["manufacturer"];
                 let manufacturer_url="https://bad-api-assignment.reaktor.com/v2/availability/" + manufacturer_name
-                console.log("manufacturer url requested: " + manufacturer_url);
+                console.log("manufacturer url requested: at " + manufacturer_url);
                 request(manufacturer_url,function(error,response,second_data_body)
                 {
                     if (error)
@@ -55,13 +55,17 @@ app.get("/product/:product", function(req,res){
                     }
                     else
                     {
-                        console.log("request at " + manufacturer_url)
-                        manufacturer_all_data.manufacturer_name = second_data_body;
+                        console.log("success route requested to: " + manufacturer_url)
+                        manufacturer_all_data[manufacturer_name] = JSON.parse(second_data_body);
                     }
                 })
             }
-            console.log(manufacturer_all_data);
-            res.render("product_page",{product_data:product_data, manufacturer_all_data: manufacturer_all_data});
+
+            setTimeout(function()
+            {
+                console.log("nelvn: " + manufacturer_all_data);
+                res.render("product_page",{product_data:product_data, manufacturer_all_data: manufacturer_all_data});
+            }, 20000); // 10 seconds
         }
     })
 })
