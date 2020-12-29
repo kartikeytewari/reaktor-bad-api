@@ -6,6 +6,11 @@ app.set("view engine","ejs");
 app.use(body_parser.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'));
 
+if (typeof localStorage === "undefined" || localStorage === null) {
+    let LocalStorage = require('node-localstorage').LocalStorage;
+    localStorage = new LocalStorage('./scratch');
+}
+localStorage.clear();
 
 var port=process.env.PORT || 8173
 app.listen(port,function(){
@@ -36,36 +41,63 @@ app.get("/product/:product", function(req,res){
             console.log("sucess: route requested to /" + req.params.product);
             let product_data=JSON.parse(body);
             let manufacturer_all_data={};
-            for (let i=0;i<=2-1;i++)
+
+            let get_manufacturer_data = function(x)
             {
-                let manufacturer_name=product_data[i]["manufacturer"];
-                let manufacturer_url="https://bad-api-assignment.reaktor.com/v2/availability/" + manufacturer_name
-                console.log("manufacturer url requested: at " + manufacturer_url);
-                request(manufacturer_url,function(error,response,second_data_body)
+                console.log(x + "function called")
+                if (x===product_data.length)
                 {
-                    if (error)
+                    // render page
+                    console.log("render called")
+                    localStorage.setItem('manufacturer_all_data', manufacturer_all_data.data.data);
+                    res.render("product_page",{product_data:product_data, manufacturer_all_data: manufacturer_all_data});
+                }
+                else if (x<=product_data.length-1)
+                {
+                    // get this data and call next function
+                    let manufacturer_name=product_data[x]["manufacturer"];
+                    if (!((manufacturer_name in manufacturer_all_data)&&(manufacturer_all_data[manufacturer_name]["response"].length!=0)))
                     {
-                        console.log("error encountered");
-                        res.send("we enountered error");
-                    }
-                    else if (response.statusCode!=200)
-                    {
-                        console.error("not ok response status encountered");
-                        res.send("something went wrong from our side")
+                        let manufacturer_url="https://bad-api-assignment.reaktor.com/v2/availability/" + manufacturer_name
+                        console.log("manufacturer url requested: at " + manufacturer_url);
+                        request(manufacturer_url,function(error,response,second_data_body)
+                        {
+                            if (error)
+                            {
+                                console.log("error encountered");
+                                res.send("we enountered error");
+                            }
+                            else if (response.statusCode!=200)
+                            {
+                                console.error("not ok response status encountered");
+                                res.send("something went wrong from our side")
+                            }
+                            else
+                            {
+                                console.log("success route requested to: " + manufacturer_url)
+                                manufacturer_all_data[manufacturer_name] = JSON.parse(second_data_body);
+                                get_manufacturer_data(x+1);
+                            }
+                        })
                     }
                     else
                     {
-                        console.log("success route requested to: " + manufacturer_url)
-                        manufacturer_all_data[manufacturer_name] = JSON.parse(second_data_body);
+                        get_manufacturer_data(x+1);
                     }
-                })
+                }
             }
 
-            setTimeout(function()
+            manufacturer_all_data=localStorage.getItem('manufacturer_all_data');
+            if (manufacturer_all_data)
             {
-                console.log("nelvn: " + manufacturer_all_data);
+                console.log("render called")
                 res.render("product_page",{product_data:product_data, manufacturer_all_data: manufacturer_all_data});
-            }, 20000); // 10 seconds
+            }
+            else
+            {
+                manufacturer_all_data={};
+                get_manufacturer_data(0);
+            }
         }
     })
 })

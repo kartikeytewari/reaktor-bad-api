@@ -2,18 +2,16 @@
 this is a product page
 
 <div>
-    <% for (let i=0;i<=2-1;i++){ %>
+    <% for (let i=0;i<=10-1;i++){ %>
     <tr>
-        <td> <%= product_data[i]["id"] %> </td>
-        <td> <%= product_data[i]["type"] %> </td>
         <td> <%= product_data[i]["name"] %> </td>
         <td> <%= product_data[i]["color"] %> </td>
         <td> <%= product_data[i]["price"] %> </td>
         <td> <%= product_data[i]["manufacturer"] %> </td>
-        <% for (let j=0;j<=manufacturer_all_data[product_data[i]["manufacturer"]]["response"].length-1;j++){ %>
-            <% if (manufacturer_all_data[product_data[i]["manufacturer"]]["response"][j]["id"] === product_data[i]["id"].toUpperCase()){ %>
-                <% let data_payload_text = manufacturer_all_data[product_data[i]["manufacturer"]]["response"][j]["DATAPAYLOAD"] %>
-                <td> <%= data_payload_text %> </td>
+        <% for (let j=0;j<=Object.keys(manufacturer_all_data[product_data[i]["manufacturer"]]["response"]).length-1;j++){ %>
+            <% if (manufacturer_all_data[product_data[i]["manufacturer"]]["response"][j]["id"] === product_data[i]["id"].toUpperCase()) { %>
+                <% let s=manufacturer_all_data[product_data[i]["manufacturer"]]["response"][j]["DATAPAYLOAD"] %>
+                <td> <%= s.substr(50,s.length-81) %> </td>
             <% } %>
         <% } %>
         <br>
