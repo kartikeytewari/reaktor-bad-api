@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/kartikeytewari/reaktor-bad-api#readme",
   "dependencies": {
-    "body-parser": "^2.2.0",
+    "body-parser": "^2.2.1",
     "dom-parser": "^1.1.5",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
